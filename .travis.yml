@@ -3,6 +3,9 @@ scala:
    - 2.11.6
 script: sbt compile
 
+services:
+  - cassandra
+
 notifications:
   webhooks:
     urls:
