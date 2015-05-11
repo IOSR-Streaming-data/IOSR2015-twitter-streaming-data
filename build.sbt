@@ -1,3 +1,4 @@
+import xsbti.Predefined
 
 name := """IOSR-streaming-data"""
 
@@ -5,7 +6,8 @@ lazy val commonSettings = Seq(
   organization := "pl.edu.agh.iosr.iosr2015.data.streaming.twitter",
   version := "0.1.0",
   scalaVersion := "2.11.6",
-  libraryDependencies ++= Dependencies.sparkAkkaHadoop
+  libraryDependencies ++= Dependencies.sparkAkkaHadoop,
+  resolvers += Resolver.sonatypeRepo("releases")
 )
 
 lazy val core = project
