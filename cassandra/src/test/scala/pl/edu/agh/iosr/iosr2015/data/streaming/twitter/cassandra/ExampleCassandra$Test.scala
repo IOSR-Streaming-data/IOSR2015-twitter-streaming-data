@@ -13,7 +13,7 @@ class ExampleCassandra$Test extends WordSpec with OneInstancePerTest with Matche
       val (sc, space: String, table: String) = ctx.initialize()
       ctx.saveSomeData(sc,space,table)
       CassandraConnector(sc.sc.getConf).withSessionDo { session =>
-        session.execute(s"select * from $space.$table").iterator().toList.length should equal(10)
+        session.execute(s"select * from $space.$table;").iterator().toList.length should equal(10)
       }
     }
   }
