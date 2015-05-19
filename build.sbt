@@ -12,6 +12,7 @@ lazy val commonSettings = Seq(
 
 lazy val core = project
   .settings(commonSettings: _*)
+  .settings(mainClass in assembly := Some("pl.edu.agh.iosr.iosr2015.data.streaming.twitter.Main"))
 
 lazy val cassandra = project.dependsOn(core)
   .settings(commonSettings: _*)
@@ -21,3 +22,4 @@ lazy val cassandra = project.dependsOn(core)
 
 lazy val root = project.in(file(".")).aggregate(core, cassandra)
   .settings(commonSettings: _*)
+

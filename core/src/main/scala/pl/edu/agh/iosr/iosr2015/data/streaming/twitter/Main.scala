@@ -2,9 +2,10 @@ package pl.edu.agh.iosr.iosr2015.data.streaming.twitter
 
 
 import org.apache.spark.SparkConf
+import org.apache.spark.streaming.dstream.DStream
 import org.apache.spark.streaming.twitter._
 import org.apache.spark.streaming.{Seconds, StreamingContext}
-import pl.edu.agh.iosr.iosr2015.data.streaming.twitter.tfidf.{Corpus, Document}
+import pl.edu.agh.iosr.iosr2015.data.streaming.twitter.tfidf.{DocumentPreprocessor, Corpus, Document}
 
 
 object Main {
@@ -31,14 +32,15 @@ object Main {
     val sparkConf = new SparkConf().setAppName("IOSR Twitter Streaming Data")
     val ssc = new StreamingContext(sparkConf, Seconds(10))
     val stream = TwitterUtils.createStream(ssc, None, filters)
+    implicit object Preprocessor extends DocumentPreprocessor
 
-    val tweets = stream.map(status => Document(status.getText))
+    val tweets: DStream[Document] = stream.map(status => Document(status.getText))
 
     tweets.foreachRDD(rdd => {
       if (rdd.count() != 0) {
-        rdd.collect().foreach {
-          println("new tweet: " + _)
-          corpus :+ _
+        rdd.collect().foreach { doc: Document =>
+          println("new tweet: " + doc)
+          corpus :+ doc
         }
       }
     })
