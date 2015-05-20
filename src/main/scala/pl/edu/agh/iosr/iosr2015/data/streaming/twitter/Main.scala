@@ -1,11 +1,10 @@
 package pl.edu.agh.iosr.iosr2015.data.streaming.twitter
 
-
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.dstream.DStream
 import org.apache.spark.streaming.twitter._
 import org.apache.spark.streaming.{Seconds, StreamingContext}
-import pl.edu.agh.iosr.iosr2015.data.streaming.twitter.tfidf.{DocumentPreprocessor, Corpus, Document}
+import pl.edu.agh.iosr.iosr2015.data.streaming.twitter.tfidf.{Corpus, Document, DocumentPreprocessor}
 
 
 object Main {

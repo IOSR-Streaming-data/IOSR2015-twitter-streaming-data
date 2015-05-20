@@ -16,7 +16,7 @@ object BasicReadWriteDemo extends App with Logging {
   val conf = new SparkConf(true)
     .set("spark.cassandra.connection.host", CassandraHost)
     .set("spark.cleaner.ttl", "3600")
-    .setMaster("local[2]")
+    .setMaster("spark://mateusz:7077")
     .setAppName(getClass.getSimpleName)
 
   // Connect to the Spark cluster:
