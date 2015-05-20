@@ -12,6 +12,7 @@ object Version {
 
 object Library {
   // workaround until 2.11 version for Spark Streaming's available
+  var sparkCore      = "org.apache.spark"  %% "spark-core"              % Version.spark
   val sparkStreaming = "org.apache.spark"  %% "spark-streaming"         % Version.spark
   val sparkTwitter   = "org.apache.spark"  %% "spark-streaming-twitter" % Version.spark
   val akkaActor      = "com.typesafe.akka" %% "akka-actor"              % Version.akka
@@ -28,11 +29,12 @@ object Dependencies {
   import Library._
 
   val sparkAkkaHadoop = Seq(
-    sparkStreaming,
-    sparkTwitter,
-    akkaActor,
-    akkaTestKit,
-    hadoopClient,
+    sparkCore % "provided",
+    sparkStreaming % "provided",
+    sparkTwitter.exclude("org.spark-project.spark", "unused"),
+    akkaActor % "provided",
+    akkaTestKit % "test",
+    hadoopClient % "provided",
     logbackClassic % "test",
     scalaTest % "test",
     mockitoAll % "test"

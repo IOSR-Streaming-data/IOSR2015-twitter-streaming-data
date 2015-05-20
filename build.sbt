@@ -1,4 +1,4 @@
-import xsbti.Predefined
+import sbt.Keys._
 
 name := """IOSR-streaming-data"""
 
@@ -7,7 +7,8 @@ lazy val commonSettings = Seq(
   version := "0.1.0",
   scalaVersion := "2.11.6",
   libraryDependencies ++= Dependencies.sparkAkkaHadoop,
-  resolvers += Resolver.sonatypeRepo("releases")
+  resolvers += Resolver.sonatypeRepo("releases"),
+  test in assembly := {}
 )
 
 lazy val core = project
