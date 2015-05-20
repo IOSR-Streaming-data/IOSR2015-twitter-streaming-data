@@ -6,8 +6,8 @@ object Version {
   val slf4j     = "1.7.6"
   val logback   = "1.1.1"
   val scalaTest = "2.1.7"
-  val mockito   = "1.9.5"
-  val akka      = "2.3.9"
+  val mockito = "1.9.5"
+  val akka = "2.3.9"
 }
 
 object Library {
@@ -37,6 +37,8 @@ object Dependencies {
     hadoopClient % "provided",
     logbackClassic % "test",
     scalaTest % "test",
-    mockitoAll % "test"
+    mockitoAll % "test",
+    "io.github.morgaroth" %% "spark-cassandra-connector" % "1.3.0-SNAPSHOT",
+    "com.datastax.cassandra" % "cassandra-driver-core" % "2.1.5"
   )
 }

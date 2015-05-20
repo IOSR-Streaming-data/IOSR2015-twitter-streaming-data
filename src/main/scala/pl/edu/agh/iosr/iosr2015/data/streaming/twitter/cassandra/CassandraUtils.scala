@@ -24,6 +24,12 @@ trait CassandraUtils {
       session.execute(s"TRUNCATE $space.$table;")
     }
   }
+
+  def dropTable(space: String, table: String, conf: SparkConf) = Try {
+    CassandraConnector(conf).withSessionDo { session =>
+      session.execute(s"DROP TABLE $space.$table;")
+    }
+  }
 }
 
 object CassandraUtils extends CassandraUtils

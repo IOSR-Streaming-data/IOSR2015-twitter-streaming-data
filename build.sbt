@@ -1,4 +1,5 @@
 import sbt.Keys._
+import sbtassembly.MergeStrategy
 
 name := """IOSR-streaming-data"""
 
@@ -10,10 +11,12 @@ lazy val commonSettings = Seq(
   resolvers += Resolver.sonatypeRepo("releases"),
   test in assembly := {}
 )
+organization := "pl.edu.agh.iosr.iosr2015.data.streaming.twitter"
 
 lazy val core = project
   .settings(commonSettings: _*)
   .settings(mainClass in assembly := Some("pl.edu.agh.iosr.iosr2015.data.streaming.twitter.Main"))
+
 
 lazy val cassandra = project.dependsOn(core)
   .settings(commonSettings: _*)
@@ -23,4 +26,3 @@ lazy val cassandra = project.dependsOn(core)
 
 lazy val root = project.in(file(".")).aggregate(core, cassandra)
   .settings(commonSettings: _*)
-

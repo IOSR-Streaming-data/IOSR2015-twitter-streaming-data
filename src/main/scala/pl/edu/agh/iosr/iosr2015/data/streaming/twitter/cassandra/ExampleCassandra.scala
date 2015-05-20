@@ -8,10 +8,12 @@ import com.datastax.spark.connector._
 
 import scala.util.Random
 
-object ExampleCassandra extends ExampleCassandra {
+object ExampleCassandraApp extends ExampleCassandra {
   def main(args: Array[String]) {
     val (sc: SparkContextFunctions, keyspace: String, table: String) = initialize()
     saveSomeData(sc, keyspace, table)
+    sc.sc.stop()
+    println("END END END END END END END")
   }
 }
 
@@ -23,14 +25,14 @@ trait ExampleCassandra {
     }
 
     val a: RDD[(String, Long, String)] = sc.sc.parallelize(data)
-    a.saveToCassandra(keyspace, table, SomeColumns("id", "count", "word"))
+    a.saveToCassandra(keyspace, table, SomeColumns("id", "cnt", "word"))
   }
 
   def initialize(host: Option[String] = None): (SparkContextFunctions, String, String) = {
     /** Configures Spark. */
     val conf = new SparkConf(true)
-      .set("spark.cassandra.connection.host", host.getOrElse("localhost"))
-      .setMaster("local[*]")
+      .set("spark.cassandra.connection.host", host.getOrElse("127.0.0.1"))
+      .setMaster("local[1]")
       .setAppName("ExampleCassandra")
 
     /** Connect to the Spark cluster: */
@@ -40,8 +42,9 @@ trait ExampleCassandra {
     val table = "test_table"
     case class Foo(id: String, count: Long, word: String)
     CassandraUtils.createNamespace(keyspace, conf)
-    CassandraUtils.createTable(keyspace, table, "id" -> "text", List("word" -> "text", "count" -> "int"), conf)
-    CassandraUtils.truncate(keyspace, table, conf)
+    CassandraUtils.dropTable(keyspace, table, conf)
+    CassandraUtils.createTable(keyspace, table, "id" -> "text", List("word" -> "text", "cnt" -> "int"), conf)
+//    CassandraUtils.truncate(keyspace, table, conf)
     (sc, keyspace, table)
   }
 }
