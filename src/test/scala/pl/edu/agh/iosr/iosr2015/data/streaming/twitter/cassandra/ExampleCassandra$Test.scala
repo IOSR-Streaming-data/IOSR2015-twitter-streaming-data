@@ -7,7 +7,7 @@ import scala.collection.JavaConversions._
 
 class ExampleCassandra$Test extends WordSpec with OneInstancePerTest with Matchers {
 
-  val ctx = new ExampleCassandra {}
+  val ctx = new CassandraIntegration {}
 
   "it" should {
     "create tables" in {

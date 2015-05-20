@@ -5,7 +5,7 @@ import org.apache.spark.SparkConf
 
 import scala.util.Try
 
-trait CassandraUtils {
+trait CassandraMethods {
   def createNamespace(namespace: String, conf: SparkConf) = {
     CassandraConnector(conf).withSessionDo { session =>
       session.execute(s"CREATE KEYSPACE IF NOT EXISTS $namespace WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1 }")
@@ -32,4 +32,4 @@ trait CassandraUtils {
   }
 }
 
-object CassandraUtils extends CassandraUtils
+object CassandraMethods extends CassandraMethods
