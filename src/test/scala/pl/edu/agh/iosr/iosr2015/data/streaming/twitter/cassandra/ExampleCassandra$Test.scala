@@ -9,7 +9,7 @@ import pl.edu.agh.iosr.iosr2015.data.streaming.twitter.cassandra.demos.Foo
 import scala.collection.JavaConversions._
 import scala.util.Random
 
-class ExampleCassandra$Test extends WordSpec with OneInstancePerTest with Matchers {
+class ExampleCassandra$Test extends WordSpec with Matchers {
 
   val ctx = new CassandraIntegration {}
 
