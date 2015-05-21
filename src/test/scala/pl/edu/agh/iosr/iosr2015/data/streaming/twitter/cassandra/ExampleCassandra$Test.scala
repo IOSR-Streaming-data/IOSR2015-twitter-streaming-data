@@ -15,7 +15,7 @@ class ExampleCassandra$Test extends WordSpec with OneInstancePerTest with Matche
 
   "it" should {
     "create tables" in {
-      val (scf, conf) = ctx.initialize()
+      val (scf, conf) = ctx.initialize(sparkHost = "local[*]")
       val space = "testkeyspace"
       val table = "testtable"
       createNamespace(space, conf)
