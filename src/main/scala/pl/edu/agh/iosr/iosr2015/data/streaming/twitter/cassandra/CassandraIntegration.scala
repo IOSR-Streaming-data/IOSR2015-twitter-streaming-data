@@ -10,13 +10,16 @@ trait CassandraIntegration {
                   cassandraHost: String = "127.0.0.1",
                   sparkHost: String = "127.0.0.1",
                   appName: String = "ExampleApplication"
-                  ): SparkContextFunctions = {
+                  ): (SparkContextFunctions, SparkConf) = {
+
+    println(s"used:\n\tspark master: $sparkHost\n\tcassandra host:$cassandraHost\n\tin app:$appName")
+
     val conf = new SparkConf(true)
       .set("spark.cassandra.connection.host", cassandraHost)
       .setMaster(sparkHost)
       .setAppName(appName)
 
     /** Connect to the Spark cluster: */
-    new SparkContextFunctions(new SparkContext(conf))
+    (new SparkContextFunctions(new SparkContext(conf)), conf)
   }
 }
