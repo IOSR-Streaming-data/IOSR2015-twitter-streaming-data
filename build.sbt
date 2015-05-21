@@ -11,8 +11,8 @@ scalaVersion := "2.10.4"
 resolvers += "cloudera" at "https://repository.cloudera.com/artifactory/cloudera-repos/"
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "2.0.M5b" % "test" withSources() withJavadoc(),
-  "org.scalacheck" %% "scalacheck" % "1.10.0" % "test" withSources() withJavadoc(),
+  "org.scalatest" %% "scalatest" % "2.2.4" % "test" withSources() withJavadoc(),
+  "org.scalacheck" %% "scalacheck" % "1.12.3" % "test" withSources() withJavadoc(),
   "org.apache.spark" %% "spark-core" % "1.3.1" % "provided" withSources() withJavadoc(),
   "org.apache.spark" %% "spark-streaming" % "1.3.1" % "provided" withSources() withJavadoc(),
   "org.apache.spark" %% "spark-streaming-twitter" % "1.3.1" % "provided" withSources() withJavadoc(),
