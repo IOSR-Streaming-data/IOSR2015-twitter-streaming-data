@@ -2,7 +2,7 @@ package pl.edu.agh.iosr.iosr2015.data.streaming.twitter.cassandra.demos
 
 import com.datastax.spark.connector.SparkContextFunctions
 import com.datastax.spark.connector.streaming._
-import org.apache.spark.Logging
+import org.apache.spark.{SparkConf, Logging}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.dstream.DStream
 import org.apache.spark.streaming.{Seconds, StreamingContext}
@@ -15,7 +15,9 @@ case class WordCount(word: String, cnt: Int)
 
 object StreamingDemo extends App with CassandraIntegration with CassandraMethods with Logging {
 
-  val (csf: SparkContextFunctions, conf) = initialize(
+  val conf: SparkConf = new SparkConf(true)
+  val csf: SparkContextFunctions = initialize(
+    conf,
     sparkHost = args.headOption.getOrElse(throw new IllegalArgumentException("provide spark master as first argument")),
     appName = "StreamingDemo"
   )
@@ -26,6 +28,7 @@ object StreamingDemo extends App with CassandraIntegration with CassandraMethods
   val lines = mutable.Queue[RDD[String]]()
   val dstream = ssc.queueStream(lines)
   lines += sc.makeRDD(Seq("To be or not to be.", "That is the question."))
+
   def badWords = List("is")
 
   //@formatter:off

@@ -2,6 +2,7 @@ package pl.edu.agh.iosr.iosr2015.data.streaming.twitter.cassandra
 
 import com.datastax.spark.connector._
 import com.datastax.spark.connector.cql.CassandraConnector
+import org.apache.spark.SparkConf
 import org.scalatest.{Matchers, WordSpec}
 import pl.edu.agh.iosr.iosr2015.data.streaming.twitter.cassandra.demos.ExampleCassandraApp._
 import pl.edu.agh.iosr.iosr2015.data.streaming.twitter.cassandra.demos.Foo
@@ -15,7 +16,8 @@ class ExampleCassandra$Test extends WordSpec with Matchers {
 
   "it" should {
     "create tables" in {
-      val (scf, conf) = ctx.initialize(sparkHost = "local[*]")
+      val conf: SparkConf = new SparkConf(true)
+      val scf = ctx.initialize(conf, sparkHost = "local[*]")
       val space = "testkeyspace"
       val table = "testtable"
       createNamespace(space, conf)
