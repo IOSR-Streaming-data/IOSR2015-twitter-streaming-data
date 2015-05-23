@@ -15,7 +15,7 @@ libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck" % "1.12.3" % "test" withSources() withJavadoc(),
   "org.apache.spark" %% "spark-core" % "1.3.1" % "provided" withSources() withJavadoc(),
   "org.apache.spark" %% "spark-streaming" % "1.3.1" % "provided" withSources() withJavadoc(),
-  "org.apache.spark" %% "spark-streaming-twitter" % "1.3.1" % "provided" withSources() withJavadoc(),
+  "org.apache.spark" %% "spark-streaming-twitter" % "1.3.1" withSources() withJavadoc(),
   //  "org.apache.spark" %% "spark-sql" % "1.3.1" % "provided" withSources() withJavadoc(),
   //  "org.apache.spark" %% "spark-hive" % "1.3.1" % "provided" withSources() withJavadoc(),
   //  "org.apache.spark" %% "spark-mllib" % "1.3.1" % "provided" withSources() withJavadoc(),
@@ -26,6 +26,8 @@ libraryDependencies ++= Seq(
   "io.github.morgaroth" %% "spark-cassandra-connector" % "1.3.0-SNAPSHOT" withSources() withJavadoc(),
   "com.datastax.cassandra" % "cassandra-driver-core" % "2.1.5" withSources() withJavadoc()
 )
+
+excludeDependencies += "org.spark-project.spark" % "unused"
 
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
