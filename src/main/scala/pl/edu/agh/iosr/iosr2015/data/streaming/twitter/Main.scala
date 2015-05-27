@@ -50,7 +50,7 @@ object Main {
     val table = "testtable"
     createNamespace(space, sparkConf)
     dropTable(space, table, sparkConf)
-    createTable(space, table, "document_id" :: Nil, List("document_text" -> "text"), sparkConf)
+    createTable(space, table, "document_id" :: Nil, List("document_id" -> "int", "document_text" -> "text"), sparkConf)
 
     tweets.foreachRDD(rdd => {
       if (rdd.count() != 0) {
