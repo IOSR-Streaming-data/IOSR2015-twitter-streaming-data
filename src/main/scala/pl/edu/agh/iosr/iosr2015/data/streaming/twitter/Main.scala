@@ -18,8 +18,6 @@ import scala.collection.JavaConversions._
 
 object Main {
 
-  val ctx = new CassandraIntegration {}
-
   def main(args: Array[String]) {
     if (args.length < 4) {
       System.err.println("Usage: Main <consumer key> <consumer secret> " +
@@ -40,13 +38,14 @@ object Main {
     System.setProperty("twitter4j.oauth.accessTokenSecret", accessTokenSecret)
 
     val sparkConf = new SparkConf().setAppName("IOSR Twitter Streaming Data")
-    val ssc = new StreamingContext(sparkConf, Seconds(10))
+    val sparkContext = new SparkContext(sparkConf)
+    val ssc = new StreamingContext(sparkContext, Seconds(10))
     val stream = TwitterUtils.createStream(ssc, None, filters)
     implicit object Preprocessor extends DocumentPreprocessor
 
     val tweets: DStream[Document] = stream.map(status => Document(status.getText))
 
-    val scf = new SparkContextFunctions(new SparkContext(sparkConf))
+    val scf = new SparkContextFunctions(sparkContext)
     val space = "testkeyspace"
     val table = "testtable"
     createNamespace(space, sparkConf)
