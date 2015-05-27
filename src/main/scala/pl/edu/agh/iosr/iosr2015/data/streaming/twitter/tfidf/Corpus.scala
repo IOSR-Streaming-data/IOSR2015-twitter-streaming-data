@@ -21,7 +21,7 @@ class Corpus {
   }
 
   private def updateDf(document: Document) = {
-    document.words.foreach { word =>
+    document.words.toSet.foreach { word =>
       df(word) = df(word) + 1
     }
   }
