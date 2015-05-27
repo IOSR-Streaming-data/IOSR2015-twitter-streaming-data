@@ -1,13 +1,24 @@
 package pl.edu.agh.iosr.iosr2015.data.streaming.twitter
 
-import org.apache.spark.SparkConf
+import com.datastax.spark.connector.SparkContextFunctions
+import com.datastax.spark.connector.cql.CassandraConnector
+import com.datastax.spark.connector._
+import org.apache.spark.{SparkContext, SparkConf}
 import org.apache.spark.streaming.dstream.DStream
 import org.apache.spark.streaming.twitter._
 import org.apache.spark.streaming.{Seconds, StreamingContext}
-import pl.edu.agh.iosr.iosr2015.data.streaming.twitter.tfidf.{Corpus, Document, DocumentPreprocessor}
+import pl.edu.agh.iosr.iosr2015.data.streaming.twitter.cassandra.CassandraIntegration
+import pl.edu.agh.iosr.iosr2015.data.streaming.twitter.cassandra.demos.ExampleCassandraApp._
+import pl.edu.agh.iosr.iosr2015.data.streaming.twitter.cassandra.demos.Foo
+import pl.edu.agh.iosr.iosr2015.data.streaming.twitter.tfidf.{DocumentDB, Corpus, Document, DocumentPreprocessor}
+
+import scala.util.Random
+import scala.collection.JavaConversions._
 
 
 object Main {
+
+  val ctx = new CassandraIntegration {}
 
   def main(args: Array[String]) {
     if (args.length < 4) {
@@ -35,11 +46,27 @@ object Main {
 
     val tweets: DStream[Document] = stream.map(status => Document(status.getText))
 
+    val scf = new SparkContextFunctions(new SparkContext(sparkConf))
+    val space = "testkeyspace"
+    val table = "testtable"
+    createNamespace(space, sparkConf)
+    dropTable(space, table, sparkConf)
+    createTable(space, table, "document_id" :: Nil, List("document_text" -> "text"), sparkConf)
+
     tweets.foreachRDD(rdd => {
       if (rdd.count() != 0) {
         rdd.collect().foreach { doc: Document =>
           println("new tweet: " + doc)
           corpus :+ doc
+
+          val data = corpus.documents.map({ d =>
+            DocumentDB(Random.nextInt(),d.text)
+          })
+          scf.sc.parallelize(data).saveToCassandra(space, table)
+
+          CassandraConnector(sparkConf).withSessionDo { session =>
+            printf("cassandra_counter: " + session.execute(s"select * from $space.$table;").iterator().toList.length + "\b")
+          }
         }
       }
     })
