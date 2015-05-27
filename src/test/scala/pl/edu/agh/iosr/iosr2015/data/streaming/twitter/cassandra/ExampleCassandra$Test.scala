@@ -22,7 +22,7 @@ class ExampleCassandra$Test extends WordSpec with Matchers {
       val table = "testtable"
       createNamespace(space, conf)
       dropTable(space, table, conf)
-      createTable(space, table, "id" -> "text", List("word" -> "text", "cnt" -> "int"), conf)
+      createTable(space, table, "id" :: Nil, List("id" -> "text", "word" -> "text", "cnt" -> "int"), conf)
       val count: Int = 100
       val data = 1 to count map { i =>
         Foo(s"id$i", Random.nextLong(), Random.alphanumeric.take(10).mkString)

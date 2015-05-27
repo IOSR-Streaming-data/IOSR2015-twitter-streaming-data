@@ -16,7 +16,7 @@ object ExampleCassandraApp extends CassandraIntegration with CassandraMethods {
     val table = "test_table"
     createNamespace(keyspace, conf)
     dropTable(keyspace, table, conf)
-    createTable(keyspace, table, "id" -> "text", List("word" -> "text", "cnt" -> "int"), conf)
+    createTable(keyspace, table, "id" :: Nil, List("id" -> "text", "word" -> "text", "cnt" -> "int"), conf)
     val data = 1 to 100 map { i =>
       Foo(s"id$i", Random.nextLong(), Random.alphanumeric.take(10).mkString)
     }

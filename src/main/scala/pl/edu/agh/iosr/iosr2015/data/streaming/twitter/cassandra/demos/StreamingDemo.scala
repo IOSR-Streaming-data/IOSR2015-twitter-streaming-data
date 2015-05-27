@@ -51,7 +51,7 @@ object StreamingDemo extends App with CassandraIntegration with CassandraMethods
   val table: String = "alamakota"
   createNamespace(space, conf)
   dropTable(space, table, conf)
-  createTable(space, table, ("word", "text"), ("cnt", "int") :: Nil, conf)
+  createTable(space, table, "word" :: Nil, List("cnt" -> "int", "word" -> "text"), conf)
   sortedWordCounts.saveToCassandra(space, table)
   ssc.start()
   ssc.awaitTermination()
