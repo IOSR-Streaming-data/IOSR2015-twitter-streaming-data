@@ -17,4 +17,5 @@ trait DocumentPreprocessor {
     words
       .groupBy(identity)
       .mapValues(_.size)
+      .map(identity)
 }
